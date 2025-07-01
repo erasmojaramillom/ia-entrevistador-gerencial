@@ -50,14 +50,61 @@ Esta plataforma revoluciona el proceso de selección gerencial mediante:
 19. **Trabajo Colaborativo**
 20. **Orientación al Cliente**
 
-## 🛠️ Stack Tecnológico (Propuesto)
+## 🛠️ Stack Tecnológico
 
-- **Backend**: Python/FastAPI o Node.js
+- **Frontend**: Next.js 14+ (App Router), TypeScript, Tailwind CSS, Supabase Auth
+- **Backend**: FastAPI, Python 3.12, Uvicorn, SQLAlchemy
 - **IA/ML**: OpenAI API, LangChain, Vector Databases
-- **Frontend**: React/Next.js
-- **Base de Datos**: PostgreSQL + Vector Store
+- **Base de Datos**: PostgreSQL + Vector Store (Pinecone/Weaviate)
 - **Procesamiento de Documentos**: PyPDF2, Tesseract OCR
 - **Infraestructura**: Docker, Kubernetes, AWS/GCP
+- **Herramientas**: pnpm (monorepo), Prettier, Black, ESLint
+
+## 🏃‍♂️ Instrucciones de Arranque Local
+
+### Prerrequisitos
+- Node.js 18+ y pnpm 8+
+- Python 3.12
+- Docker y Docker Compose
+- Git
+
+### Instalación
+
+1. **Clonar el repositorio**
+   ```bash
+   git clone https://github.com/erasmojaramillom/ia-entrevistador-gerencial.git
+   cd ia-entrevistador-gerencial
+   ```
+
+2. **Instalar dependencias del monorepo**
+   ```bash
+   pnpm install
+   ```
+
+3. **Configurar variables de entorno**
+   ```bash
+   # Frontend
+   cp apps/frontend/.env.example apps/frontend/.env.local
+   # Backend
+   cp apps/backend/.env.example apps/backend/.env
+   ```
+
+4. **Iniciar servicios con Docker Compose**
+   ```bash
+   cd infra
+   docker-compose up -d
+   ```
+
+5. **Iniciar aplicaciones en modo desarrollo**
+   ```bash
+   # En la raíz del proyecto
+   pnpm dev
+   ```
+
+### URLs de Desarrollo
+- Frontend: http://localhost:3000
+- Backend API: http://localhost:8000
+- API Docs: http://localhost:8000/docs
 
 ## 📊 Arquitectura del Sistema
 
@@ -73,12 +120,26 @@ Esta plataforma revoluciona el proceso de selección gerencial mediante:
                         └─────────────────┘     └─────────────────┘
 ```
 
+## 📁 Estructura del Proyecto
+
+```
+ia-entrevistador-gerencial/
+├── apps/
+│   ├── frontend/          # Next.js + Tailwind CSS
+│   └── backend/           # FastAPI + Python 3.12
+├── packages/              # Paquetes compartidos
+├── infra/                 # Docker Compose e IaC
+├── docs/                  # Documentación
+├── tests/                 # Tests E2E
+└── .github/workflows/     # CI/CD pipelines
+```
+
 ## 🚦 Roadmap MVP
 
 ### Fase 1: Fundación (Semanas 1-2)
-- [ ] Configuración del entorno de desarrollo
-- [ ] Diseño de arquitectura base
-- [ ] Configuración de repositorio y CI/CD
+- [x] Configuración del entorno de desarrollo
+- [x] Diseño de arquitectura base
+- [x] Configuración de repositorio y CI/CD
 
 ### Fase 2: Core Backend (Semanas 3-4)
 - [ ] Procesamiento de CV
@@ -100,9 +161,25 @@ Esta plataforma revoluciona el proceso de selección gerencial mediante:
 - [ ] Optimización de rendimiento
 - [ ] Despliegue en producción
 
+## 🧪 Testing
+
+```bash
+# Tests unitarios
+pnpm test
+
+# Tests con coverage
+pnpm test:coverage
+
+# Linting
+pnpm lint
+
+# Formateo de código
+pnpm format
+```
+
 ## 🤝 Contribución
 
-¡Las contribuciones son bienvenidas! Por favor, lee nuestras guías de contribución antes de enviar un PR.
+¡Las contribuciones son bienvenidas! Por favor, lee nuestras [guías de contribución](CONTRIBUTING.md) antes de enviar un PR.
 
 ## 📄 Licencia
 
