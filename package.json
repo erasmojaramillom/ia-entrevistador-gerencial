@@ -1,0 +1,27 @@
+{
+  "name": "ia-entrevistador-gerencial",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Plataforma SaaS de IA para generar entrevistas gerenciales automatizadas",
+  "scripts": {
+    "dev": "pnpm run --parallel dev",
+    "build": "pnpm run --recursive build",
+    "test": "pnpm run --recursive test",
+    "lint": "pnpm run --recursive lint",
+    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,css,md}\" && black apps/backend",
+    "prepare": "husky install"
+  },
+  "devDependencies": {
+    "prettier": "^3.2.5",
+    "husky": "^9.0.11",
+    "lint-staged": "^15.2.2"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx,json,css,md}": "prettier --write",
+    "*.py": "black"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "pnpm": ">=8.0.0"
+  }
+}
