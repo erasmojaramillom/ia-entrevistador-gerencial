@@ -1,0 +1,68 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: ia-entrevistador-db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: ia_entrevistador
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - ia-network
+
+  redis:
+    image: redis:7-alpine
+    container_name: ia-entrevistador-redis
+    ports:
+      - "6379:6379"
+    networks:
+      - ia-network
+
+  backend:
+    build:
+      context: ../apps/backend
+      dockerfile: ../../infra/docker/Dockerfile.backend
+    container_name: ia-entrevistador-backend
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/ia_entrevistador
+      REDIS_URL: redis://redis:6379
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - ia-network
+    volumes:
+      - ../apps/backend:/app
+    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+
+  frontend:
+    build:
+      context: ../apps/frontend
+      dockerfile: ../../infra/docker/Dockerfile.frontend
+    container_name: ia-entrevistador-frontend
+    environment:
+      NEXT_PUBLIC_API_URL: http://localhost:8000
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    networks:
+      - ia-network
+    volumes:
+      - ../apps/frontend:/app
+      - /app/node_modules
+      - /app/.next
+
+volumes:
+  postgres_data:
+
+networks:
+  ia-network:
+    driver: bridge
